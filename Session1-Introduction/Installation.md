@@ -31,11 +31,15 @@ powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | ie
 #### MacOS and Linux:
 Open a Terminal (CLI) and paste:
 
+```text
 curl -LsSf https://astral.sh/uv/install.sh | sh
+```
 
 If your system does not have curl, you can use wget:
 
+```text
 wget -qO- https://astral.sh/uv/install.sh | sh
+```
 
 
 ### Git
@@ -49,16 +53,24 @@ Choose one of the following options for installing Git on macOS:
 
 * Homebrew
 Install homebrew if you don't already have it, then:
-$ brew install git
+```text
+brew install git
+```
 
 * MacPorts
 Install MacPorts if you don't already have it, then:
-$ sudo port install git
+```text
+sudo port install git
+```
 
 * Xcode Command Line Tools
 Apple ships a binary package of Git with Xcode Command Line Tools. You can install this via:
-$ xcode-select --install
+```text
+xcode-select --install
+```
 
 * Installing git-gui
 If you would like to install git-gui and gitk, git's commit GUI and interactive history browser, you can do so using homebrew
-$ brew install git-gui
+```text
+brew install git-gui
+```
