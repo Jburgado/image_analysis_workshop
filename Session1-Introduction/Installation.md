@@ -24,7 +24,7 @@ We will use the extremely fast package manager "uv" to handle Python environment
 #### Windows: 
 Open PowerShell.  Copy and paste the following command:
 
-powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+<samp class="octicon octiocn-copy">powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"</samp>
 
 #### MacOS and Linux:
 Open a Terminal (CLI) and paste:
