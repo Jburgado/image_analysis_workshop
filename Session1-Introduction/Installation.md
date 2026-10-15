@@ -78,3 +78,6 @@ If you would like to install git-gui and gitk, git's commit GUI and interactive 
 ```text
 brew install git-gui
 ```
+
+## Github
+Although not strictly necessary, you are highly encouraged to create an account on github.  Visit [https://github.com](https://github.com), Create an account.  You may want to join [GitHub Education](https://github.com/education). 
