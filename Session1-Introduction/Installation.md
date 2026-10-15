@@ -10,7 +10,8 @@ You can either use the build-in Powershell or (preferred) install Git Bash (you 
 Use the Terminal application provided by your OS.  
 
 ### VSCode installation (alternate option)
-[Download and install](https://code.visualstudio.com/)
+[Download and install](https://code.visualstudio.com/).  Note that VSCode is not the same thing as Visual Studio Code.
+
 
 
 ## AI coding assistants
@@ -77,6 +78,16 @@ xcode-select --install
 If you would like to install git-gui and gitk, git's commit GUI and interactive history browser, you can do so using homebrew
 ```text
 brew install git-gui
+```
+
+### Set your identity (this needs to be done once)
+In a terminal, enter:
+```text
+git config --global user.name "Your Name"
+```
+and
+```text
+git config --global user.email "your.email@example.com"
 ```
 
 ## Github
