@@ -1,0 +1,16 @@
+[project]
+name = "image-analysis-workshop"
+version = "0.1.0"
+description = "Python environment for UCSF Image Analysis Workshop 2026"
+readme = "README.md"
+requires-python = ">=3.12, <3.15"
+dependencies = [
+    "napari[all]>=0.5.0",
+    "cellpose[gui]>=4.0.0",
+    "torch",
+    "numpy",
+    "scipy",
+    "matplotlib",
+    "scikit-image>=0.26.0",
+    "bioio"
+]

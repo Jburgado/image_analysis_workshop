@@ -1,0 +1,7 @@
+# ignore uv related things
+.python-version
+uv.lock
+.venv
+
+#Editor files
+*.swp
