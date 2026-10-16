@@ -16,43 +16,40 @@ Log in to [GitHub](https://github.com). On the [GitHub image_analysis_workshop](
 * Select a location where you will store your copy of the repository (suggestions: ~/projects).
 * Open the repository when prompted
 * Add the UCSF_CALM repository as the "upstream" repository:
-```text
-git remote add upstream https://github.com/UCSF-CALM/image_analysis_workshop.git
-```
+  * Open the Command Palette (Ctrl+Shift+P on Windows/Linux, Cmd+Shift+P on Mac).
+  * Type "Git: Add Remote" and select it.
+  * Enter "upstream" as the remote name.
+  * Enter the URL: `https://github.com/UCSF-CALM/image_analysis_workshop.git`
 
 ## Create a git branch where you will keep your own work
-Under the hood, git stores differences (diffs) between versions.  You create a new version by using the command ```git commit```.  However, you will want to add your own commits to your own "branch" (so that you can always go back to a pristine state).  To create your own branch, called "my_branch" use the command:
-```text
-git switch -c my_branch
-```
-Now create a test file and add some text to it:
-```text
-echo "The first content for my own branch" > test.txt
-```
-Add this file to the list of files to be committed:
-```text
-git add test.txt
-```
-And then commit it:
-```text
-git commit -m "The first file added to my_branch is just a test file."
-```
-You can now push this file to GitHub:
-```text
-git push
-```
-Note that the first time you "push" (to github) you will need to tell the push command to create the branch:
-```text
-git push --set-upstream origin my_branch
-```
+Under the hood, git stores differences (diffs) between versions.  You create a new version by making a "commit".  However, you will want to add your own commits to your own "branch" (so that you can always go back to a pristine state).  To create your own branch, called "my_branch":
+* Click on the branch name shown in the bottom-left corner of the VSCode status bar (it will say "main").
+* In the dropdown that appears, select "Create new branch...".
+* Type "my_branch" and press Enter.
 
-Occasionally, there will be changes/additions in the "upstream" UCSF-CALM repository.  You can get these in your work branch using the following commands:
-```text
-git checkout main
-git pull upstream main
-git checkout my_branch
-git merge main
-```
+VSCode will switch you to this new branch, which is now shown in the status bar.
+
+Now create a test file and add some text to it:
+* In the Explorer panel, create a new file named "test.txt" (File > New File..., or right-click in the Explorer and select "New File...").
+* Add some text to it, for example "The first content for my own branch".
+* Save the file (Ctrl+S / Cmd+S).
+
+Add this file to the list of files to be committed, and then commit it:
+* Click the Source Control icon in the Activity bar (the icon with 3 circles), or press Ctrl+Shift+G (Cmd+Shift+G on Mac).
+* Under "Changes" you will see "test.txt" listed.  Hover over it and click the "+" icon to stage it (this is the same as `git add`).
+* Type a commit message, for example "The first file added to my_branch is just a test file.", in the message box at the top of the Source Control panel.
+* Click the checkmark (✓) button (or press Ctrl+Enter / Cmd+Enter) to commit.
+
+You can now push this file to GitHub:
+* Click the "..." (More Actions) menu at the top of the Source Control panel and select "Push".
+* Since this is the first time you push this branch, VSCode will instead show a "Publish Branch" button in the Source Control panel - click it.  This creates the branch on GitHub and sets up tracking (the same as `git push --set-upstream origin my_branch`).
+
+Occasionally, there will be changes/additions in the "upstream" UCSF-CALM repository.  You can get these into your work branch as follows:
+* Click on the branch name in the status bar and switch to "main".
+* Click the "..." menu in the Source Control panel, select "Pull, Push" > "Pull from..." and choose the "upstream" remote and the "main" branch (the same as `git pull upstream main`).
+* Click on the branch name in the status bar again and switch back to "my_branch".
+* Click the "..." menu, select "Branch" > "Merge Branch..." and choose "main" to merge it into your branch.
+
 Make sure not to change files that are in the "main" branch (which could result in merge conflicts).  
 
 ## Create a Python environment

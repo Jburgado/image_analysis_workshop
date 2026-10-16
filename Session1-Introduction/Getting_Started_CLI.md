@@ -45,11 +45,11 @@ And then commit it:
 ```text
 git commit -m "The first file added to my_branch is just a test file."
 ```
-You can now push this file to github:
+You can now push this file to GitHub:
 ```text
 git push
 ```
-Note that the first time you "push" (to github) you will need to tell the push command to create the branch:
+Note that the first time you "push" (to GitHub) you will need to tell the push command to create the branch:
 ```text
 git push --set-upstream origin my_branch
 ```
