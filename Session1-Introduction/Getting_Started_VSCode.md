@@ -21,38 +21,5 @@ git remote add upstream https://github.com/UCSF-CALM/image_analysis_workshop.git
 ```
 
 ## Create a git branch where you will keep your own work
-under the hood, git stores differences (diffs) between versions.  You create a new version by using the command ```git commit```.  However, you will want to add your own commits to your own "branch: (so that you can always go back to a pristine state).  To create your own branch, called "my_branch" use the command:
-```text
-git switch -c my_branch
-```
-Now create a test file and add some text to it:
-```text
-echo "The first content for my own branch" test.txt
-```
-Add this file to the list of files to be committed:
-```text
-git add test.txt
-```
-And then commit it:
-```text
-git commit -m "The first file added to my_branch is just a test file."
-```
-You can now push this file to github:
-```text
-git push
-```
-Note that the first time you "push" (to github) you will need to tell the push command to create the branch:
-```text
-git push --set-upstream origin my_branch
-```
+under the hood, git stores differences (diffs) between versions.  You create a new version by using the command ```git commit```.  However, you will want to add your own commits to your own "branch: (so that you can always go back to a pristine state).  To create your own branch, called "my_branch" 
 
-Occasionally, there will be changes/additions in the "upstream" UCSF-CALM repository.  You can get these in your work branch using the following commands:
-```text
-git checkout main
-git pull upstream main
-git checkout my_branch
-git merge main
-```
-Make sure not to change files that are in the "main" branch (which could result in merge conflicts).  
-
-## Create a Python environment
