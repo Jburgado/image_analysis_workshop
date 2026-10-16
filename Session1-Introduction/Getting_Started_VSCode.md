@@ -4,17 +4,17 @@
 ## Clone this GitHub repository to your own computer
 * Fork this repository
 
-Log in to [GitHub](https://github.com). On the [GitHub image_analysis_workshop](https://github.com/UCSF-CALM/image_analysis_workshop) page find the "Fork" button (near the right top) and click it. Create the fork under your own GitHub name ("your_github_name").  
+Log in to [GitHub](https://github.com). On the [GitHub image_analysis_workshop](https://github.com/UCSF-CALM/image_analysis_workshop) page find the "Fork" button (near the right top) and click it. Create the fork under your own GitHub name ("your_github_name").   Then:
 
 * Start VSCode
 * Clone your fork:
-* Click the Source Control icon (icon with 3 circles, in my case on the left side).  Shortcut (on Windows: Ctrl+Shift+G).
-* Click "Clone Repository"
-* Select "Clone from GitHub"
-* Sign in to your GitHub account.
-* Select your Fork of this repository (created during "Installation").
-* Select a location where you will store your copy of the repository (suggestions: ~/projects).
-* Open the repository when prompted
+    * Click the Source Control icon (icon with 3 circles, in my case on the left side).  Shortcut (on Windows: Ctrl+Shift+G).
+    * Click "Clone Repository"
+    * Select "Clone from GitHub"
+    * Sign in to your GitHub account.
+    * Select your Fork of this repository (created above).
+    * Select a location where you will store your copy of the repository (suggestions: ~/projects).
+    * Open the repository when prompted
 * Add the UCSF_CALM repository as the "upstream" repository:
   * Open the Command Palette (Ctrl+Shift+P on Windows/Linux, Cmd+Shift+P on Mac).
   * Type "Git: Add Remote" and select it.
