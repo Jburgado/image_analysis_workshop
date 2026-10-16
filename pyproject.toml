@@ -12,5 +12,7 @@ dependencies = [
     "scipy",
     "matplotlib",
     "scikit-image>=0.26.0",
-    "bioio"
+    "bioio",
+    "bioio-ome-tiff>=1.4.0",
+    "bioio-nd2>=2.6.0",
 ]

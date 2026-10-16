@@ -63,4 +63,9 @@ git merge main
 ```
 Make sure not to change files that are in the "main" branch (which could result in merge conflicts).  
 
-## Create a Python environment
+## Create a Python environment and test
+We use "uv" to manage Python environments.  To create the environment exeucte the following:
+```text
+uv sync
+```
+Run the supplied test script by executing (from the 
