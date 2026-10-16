@@ -7,7 +7,8 @@ There are multiple ways to interact with the tools that will be used in the work
 #### Windows
 You can either use the built-in PowerShell or (preferred) install Git Bash (you will need to install Git later in any case).  Download [here](https://git-scm.com/install/windows) and install.
 #### Mac and Linux
-Use the Terminal application provided by your OS.  
+
+Use the Terminal application provided by your OS.  One the Mac, you can find it in "Applications/Utilities".  Drag the icon to the task bar for easier future access.
 
 ### VSCode installation (alternate option)
 [Download and install](https://code.visualstudio.com/).  Note that VSCode (Visual Studio Code) is not the same thing as Visual Studio, Microsoft's separate full-featured IDE.
