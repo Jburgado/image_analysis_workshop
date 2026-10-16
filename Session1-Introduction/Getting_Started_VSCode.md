@@ -2,10 +2,7 @@
 
 
 ## Clone this GitHub repository to your own computer
-* Fork this repository
-
-Log in to [GitHub](https://github.com). On the [GitHub image_analysis_workshop](https://github.com/UCSF-CALM/image_analysis_workshop) page find the "Fork" button (near the right top) and click it. Create the fork under your own GitHub name ("your_github_name").   Then:
-
+* Fork this repository: Log in to [GitHub](https://github.com). On the [GitHub image_analysis_workshop](https://github.com/UCSF-CALM/image_analysis_workshop) page find the "Fork" button (near the right top) and click it. Create the fork under your own GitHub name ("your_github_name").  This will create a copy of the GitHub repository under your own name (i.e. you own the copy).
 * Start VSCode
 * Clone your fork:
     * Click the Source Control icon (icon with 3 circles, in my case on the left side).  Shortcut (on Windows: Ctrl+Shift+G).
@@ -17,10 +14,13 @@ Log in to [GitHub](https://github.com). On the [GitHub image_analysis_workshop](
     * Open the repository when prompted
     * VSCode will ask "Do you trust the authors of the files in this folder?".  Click "Yes, I trust the authors".  Until you do this, VSCode runs in a restricted mode and features like Git integration will not fully work.
 * Add the UCSF_CALM repository as the "upstream" repository:
-  * In the Source Control panel, click the "..." (More Actions) menu at the top.
+  * In the Source Control panel, click the "..." (More Actions) menu at the top. Ensure that "Repositories" is shown. Click the "..." next to "image_analysis_workshop".
   * Select "Remote" > "Add Remote...".
+  * Enter the URL: 
+  ```text
+  https://github.com/UCSF-CALM/image_analysis_workshop.git`
+  ```
   * Enter "upstream" as the remote name.
-  * Enter the URL: `https://github.com/UCSF-CALM/image_analysis_workshop.git`
 
 > **Mac troubleshooting:** If no Git-related options show up in VSCode (in the Command Palette or in the "..." menus), even though `git` works in your Terminal, VSCode is likely not finding your `git` installation. This happens because apps launched from Finder/Dock do not automatically pick up the same PATH as your Terminal. To fix it:
 >   1. In Terminal, run `which git` to find the full path to git (e.g. `/usr/bin/git` or `/opt/homebrew/bin/git`).
