@@ -15,11 +15,19 @@ Log in to [GitHub](https://github.com). On the [GitHub image_analysis_workshop](
     * Select your Fork of this repository (created above).
     * Select a location where you will store your copy of the repository (suggestions: ~/projects).
     * Open the repository when prompted
+    * VSCode will ask "Do you trust the authors of the files in this folder?".  Click "Yes, I trust the authors".  Until you do this, VSCode runs in a restricted mode and features like Git integration will not fully work.
 * Add the UCSF_CALM repository as the "upstream" repository:
-  * Open the Command Palette (Ctrl+Shift+P on Windows/Linux, Cmd+Shift+P on Mac).
-  * Type "Git: Add Remote" and select it.
+  * In the Source Control panel, click the "..." (More Actions) menu at the top.
+  * Select "Remote" > "Add Remote...".
   * Enter "upstream" as the remote name.
   * Enter the URL: `https://github.com/UCSF-CALM/image_analysis_workshop.git`
+
+> **Mac troubleshooting:** If no Git-related options show up in VSCode (in the Command Palette or in the "..." menus), even though `git` works in your Terminal, VSCode is likely not finding your `git` installation. This happens because apps launched from Finder/Dock do not automatically pick up the same PATH as your Terminal. To fix it:
+>   1. In Terminal, run `which git` to find the full path to git (e.g. `/usr/bin/git` or `/opt/homebrew/bin/git`).
+>   2. In VSCode, open Settings (Cmd+,), search for "git.path", and enter that full path.
+>   3. Restart VSCode.
+>
+> Alternatively, open the folder from Terminal by typing `code .` inside it; VSCode will then inherit Terminal's environment (including PATH).
 
 ## Create a git branch where you will keep your own work
 Under the hood, git stores differences (diffs) between versions.  You create a new version by making a "commit".  However, you will want to add your own commits to your own "branch" (so that you can always go back to a pristine state).  To create your own branch, called "my_branch":
