@@ -5,7 +5,9 @@ Computers represent images as streams of numbers.  Each number correlates with o
 
 The numbers underlying an image can be of any type that the computer understands.  They can be integer numbers, or rational numbers (which in a computer, are called floating point numbers, where type "double" uses more storage space and has a higher range than type "float").  When the numbers are integers, they will have a certain range, again depending on how much space we give each number.  The range can be 1 bit (in which case the only possible numbers are zero and 1), or 2 or more bits.  Computers like to assemble bits in packages of 8, which are called bytes. So, 1 byte (8-bit) images are common, and these have a range of 0-255 (note that we start counting at zero).  There are sensors that deliver 12-bit (0-4095), 16-bit (0-65,535) or even more.  
 
-Apart from the numbers themselves, there is a minimum set of metadata that needs to accompany an image to make sense of it.  That is, the number type, the number of rows and columns.  Some applications have different opinions about the location of the origin (either bottom left or top left), which can lead to image flipping when opening it somewhere else.
+Apart from the numbers themselves, there is a minimum set of metadata that needs to accompany an image to make sense of it.  That is, the number type, the number of rows and columns, and the order (rows-columns or columns-rows).  Some applications have different opinions about the location of the origin (either bottom left or top left), which can lead to image flipping when opening it somewhere else.
+
+![8 bit image of a cell nucleus](../testImages/nucleus_cropper_2.tif)
 
 To illustrate these points, ask your AI to write scripts that:
 * opens the file testimages/nucleus_cropped_1.tif, displays the first 10 rows and columns as a matrix in the terminal, displays the number of rows and columns and the number type, and displays the image in napari
@@ -14,4 +16,20 @@ To illustrate these points, ask your AI to write scripts that:
 
 
 # Computer representation of RGB images
+Color (RedGreenBlue, or RGB) images contain 3 numbers per pixel, one each for the Red, Green and Blue component. Most RGB images have 8-bit (one byte) integer numbers per color, however, color images consisting of larger numbers (such as 10-bit. 12-bit or 16-bit) exist.  Other formats, such as RGBA, where A is an "alpha" channel that determined transparency of the pixel, exist.
+
+Color cameras actually contain "monochrome" sensors with a mask of color filters on each pixel. The most widely used arrangement is called a Bayer mask and looks as folllows:
+
+| Green | Blue  |
+| Red   | Green |
+
+There are 2 fold more green pixels than red and blue to mimic the color sensitivity of human vision.
+
+Raw color images look strange.  To make sense, they are "Debayered", an operation that looks at the values surrounding a pixel and guesses or interpolates a red, green and blue value for each pixel.
+
+![RGB Image of a cell in RGB](../testImages/Cell_cropped_2.tif)
+
+Ask your AI coding assistant to write  Python script that opens Cell_cropped_2.tif, displays the R, G, and B values of 3% of the pixels (regularly spaced) in a table, and finally displays the image.
+
+
 
