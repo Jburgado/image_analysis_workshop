@@ -34,4 +34,25 @@ Raw color images look strange.  To make sense of them, they are "Debayered", an 
 * Ask your AI coding assistant to write a Python script that opens Cell_cropped_2.tif, displays the R, G, and B values of 3% of the pixels (regularly spaced) in a table, and finally displays the image.
 
 
+# Changing brightness/contrast in the viewer (usually) does not change pixel values
+Most image viewers will let you change brightness and contrast withou changing pixel values.  Brightness and contrast change the mapping between the pixel value and the intensity of the pixel on the display.  To convince yourself, start napari (in the terminal, type "uv run napari"), open the files nucleu_cropped_1.tif (in textImages), and place the cursor in the top right pixel.  Read the pixel intensity on the status line in the bottom of the screen.  Now, change the contrast limits (for instance, move the right circle in contrast limits to the left, see that the image gets brighter, and read the pixel intensity of the top right pixel again.  Did it change?
+
+![Napari Histogram](Pictures/napari-histogram.png)
+
+A histogram is a nice way to visualize both the distribution of pixel intensities in your image and the mapping of pixel values to intensities on the display. In Napari, you find the histogram through a button to the right of contrast limits. The histogram shows the distribution of pixel intensities, the line shows the mapping of pixel intensities to screen brightness.  Note tha gamma slider.  Gamma is the exponential in the mapping of input values to output values.  A gamma of 1.0 results in a straight line.  The interesting thing is that our monitors have a gamma of 2.2, resulting in the argument that a gamma of 0.42 results in a "real" linear display of intensities (ref to Sam's paper).  If you publish images with a gamma different from 1.0, you should declare that.
+
+Interestingly, Fiji/ImageJ will change pixel intensities of RGB images when you change brightness contrast.  You can test this by opening Cell_cropped_2.tif in ImageJ, changing the brightness/contrast, and checking the pixel intensities before and after doing so.
+
+## Look up Tables (LUTs)
+Although mapping of pixel values to greyscale intensities is a very natural (and often useful) thing to do, you can also map these differently.  For instance, you can change the color and map to a gradient of any color you like.  This is how you "false" color your images.
+
+Start Napari ("uv run napari") if you do not have it open.  Open the file "nucleus_cropped_1.tif".  Under "colormap", select "blue".  Voila, your DAPI stained nucleus now is shown in blue.  
+
+LUTs do not need to be linear gradients of one color.  THey can be more or less anything.  They often are tables of 256 entries, each with their RGB color associated.  How do you think the software displays 16-bit (2 byte) images with such a LUT?
+
+LUTs are especially useful with multi-channel images.  
+
+* Open the file Cell_cropped.tif in Napari.  Be sure to select the option "napari-tiff" when prompted which reader to use.  Select Channel 2, and change the colormap to blue (or whatever you like).  Notice the colomaps for the other channels (and change them if you like).
+
+Note about color-blind friendly LUTs: About 8% of men and 0.5% of women of Noerthern European decent are Red Green color blind, hence the Red Green Blue scheme as used in the file Cell_cropped.tif may not be optimal for everyone.  Therefore, you may want to switch to using Green & Magenta, or Cyan and Magenta.  
 
