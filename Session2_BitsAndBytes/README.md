@@ -50,9 +50,26 @@ Start Napari ("uv run napari") if you do not have it open.  Open the file "nucle
 
 LUTs do not need to be linear gradients of one color.  THey can be more or less anything.  They often are tables of 256 entries, each with their RGB color associated.  How do you think the software displays 16-bit (2 byte) images with such a LUT?
 
-LUTs are especially useful with multi-channel images.  
+# Images that consist of multiple channels, time points, Z positions, etc..
+Many data sets we acquire consist of multiple images that are related to each other. LUTs are especially useful with multi-channel images.  
 
 * Open the file Cell_cropped.tif in Napari.  Be sure to select the option "napari-tiff" when prompted which reader to use.  Select Channel 2, and change the colormap to blue (or whatever you like).  Notice the colomaps for the other channels (and change them if you like).
 
 Note about color-blind friendly LUTs: About 8% of men and 0.5% of women of Noerthern European decent are Red Green color blind, hence the Red Green Blue scheme as used in the file Cell_cropped.tif may not be optimal for everyone.  Therefore, you may want to switch to using Green & Magenta, or Cyan and Magenta.  
+
+Datasets also can contain multiple time points, Z positions, XY positions, angles, or what not.  This will somehow need to be indicated in the metadata of the image.  The software needs to be aware of those metadata to represent the data ina useful way.  This turns out to be a struggle.
+
+# Storage of image data.
+The most straightforward way to store images appears to be to store the stream of pixel intensities directly, and to store the metadata describing the images.  This is exactly what the [Image Cytometry standard, proposed in 1990](http://dx.doi.org/10.1002/cyto.990110502), does.  
+
+* Open the file testImages/testim.ics in a text editor (such as VSCode).  Inspect the content.  Note the existence of the file testim.ids.  Then open testim.ics in napari.  Does the image you see makes sense based on the metadat you read in the ics file?
+
+Many, many other image formats have appeared and are actively being used.  In practice, it is important to make a distinctions between "lossless", and "lossy" formats.  This pertains to compression.  Since images are large, it is advantaguous to try to compress the image data.  THis can be done in such a way that the original data can be faithfully restored ("lossless"), or in a way that does not allow for full restoration of the original data ("lossy").  
+
+## jpg.
+One of the best known lossy formats is "jpg" (Joint Photographers Experts Group).  This format was designed to result in images that look good to humans, and that has a tunable compression ratio.  It can greatly reduce file sizes, and is useful for inserting images into presentation or websites, but should not be used to store your primary data.  
+
+* Ask your AI coding assistant to write a script that opens the file Cell_cropped_2.tif, saves it as a jpg, reads in the jpg, then generates an image that shows the difference between the jpg and the original, show all 3 in napari).  Then, ask it to resave the same jpg a hundred times and look at the difference again.
+
+## png and gif
 

@@ -15,4 +15,7 @@ dependencies = [
     "bioio",
     "bioio-ome-tiff>=1.4.0",
     "bioio-nd2>=2.6.0",
+    "bioio-bioformats",
+    "napari-bioio-reader",
+    "napari-tiff",
 ]
