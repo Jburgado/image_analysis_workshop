@@ -47,7 +47,7 @@ A 3x3 filter with all weights at 1 will "smooth' the image.  This is the ImageJ/
 * Ask your coding asistant to write a Python script to apply the following kernels on your Nucleu_cropped_noise.tif:  a 3x3 kernel with all ones, a 3x3 kernel with all ones, except for the central pixel being 4, a 7x7 kernel with all ones. Normalize each kernel by its sum. Compare the output images with each other, and with the median filtered images.
 
 # Sharpen filter: accentuate fine details
-The kernel of teh Sharpen filter in ImageJ looks as follows:
+The kernel of the Sharpen filter in ImageJ looks as follows:
 |       | Col 1  | Col 2  | Col 3 |
 | ----- | ----- | ----- | ----- |
 | Row 1 |  -1   |  -1   |  -1   |
@@ -58,7 +58,80 @@ The kernel of teh Sharpen filter in ImageJ looks as follows:
 * Ask your AI assistant to use this Sharpen filter on the image "Actin_cropped.tif", and compare the result with it input.  What happened to the image, and what happen to the noise in the image? 
 
 
-# Blurring the image with a Gaussian-shaped kernel
+## Blurring the image with a Gaussian-shaped kernel and the unsharp mask
+When you shape the kernel as a 2D Gaussian (bell shaped), it could end up looking something like:
+
+|       | Col 1  | Col 2  | Col 3 |
+| ----- | ----- | ----- | ----- |
+| Row 1 |  1   |  2   |  1   |
+| Row 2 |  2   |  4   |  2   |
+| Row 3 |  1   |  2   |  1   |
+
 It should now be easy to imagine a kernel that has a 2D Gaussian shape.  Interestingly, this is roughly the same shape as the Point Spread Function of your microscope. So, you could think about your mciroscope applying a 2D Gaussian blur on your real image.    
 
-One fun application of a Gaussian blur is in the "unsharp mask"  Here, you first create a copy of the input image by applying a Gaussian blue
+One fun application of a Gaussian blur is in the "unsharp mask"  Here, you first create a copy of the input image by applying a Gaussian blur, then substract the blurred image from the input image.  The size of the Gaussian kernel (size of the blur) is important,
+
+* Ask your AI assistant to apply a Gaussian blue with a 5x5 gaussian kernel and a 21x21 Gaussian kernal on testImages/Actin_cropped.tif and save those images.  Also, subtract each from the input image to produce "unsharp masked" images.  Open these images in napari and describe the results. Look at the pixel values.  Are these still integer numbers?
+
+* In a classical unsharp mask, a fraction of the "masked" image (as you calculated above) is added back to the original image.  Ask your AI assistant to implement that, and play with the amount to addk to the original for both unmasked (5x5 and 21x21) images.
+
+
+## Edge finding filters (Sobel filters)
+An "edge" is a place in the image where the intensity changes quickly, for instance at the border of a cell or along the side of an actin fiber.  To find edges, we look at the *difference* between neighboring pixels rather than at the pixel values themselves.  The simplest kernel that does this is one row of three pixels:
+
+|       | Col 1  | Col 2  | Col 3 |
+| ----- | ----- | ----- | ----- |
+| Row 1 |  -1   |   0   |   1   |
+
+The output is the pixel to the right minus the pixel to the left.  In a flat region the two cancel and the output is 0.  Where the image gets brighter from left to right, the output is positive; where it gets darker, it is negative.  Notice that the weights add up to 0: you can not "normalize" this kernel by its sum, and the output can have negative values.
+
+The Sobel filter uses this same idea, but over three rows, with the middle row counting double.  This averages a little along the direction of the edge, which makes the filter less sensitive to noise.  There is one kernel for changes from left to right (it finds vertical edges), and one for changes from top to bottom (it finds horizontal edges):
+
+Sobel x (left to right):
+|       | Col 1  | Col 2  | Col 3 |
+| ----- | ----- | ----- | ----- |
+| Row 1 |  -1   |   0   |   1   |
+| Row 2 |  -2   |   0   |   2   |
+| Row 3 |  -1   |   0   |   1   |
+
+Sobel y (top to bottom):
+|       | Col 1  | Col 2  | Col 3 |
+| ----- | ----- | ----- | ----- |
+| Row 1 |  -1   |  -2   |  -1   |
+| Row 2 |   0   |   0   |   0   |
+| Row 3 |   1   |   2   |   1   |
+
+To find edges in any direction, the two results are combined for each pixel as the square root of (Sobel x squared + Sobel y squared).  This "gradient magnitude" is always positive, and is what the "Find Edges" command in ImageJ/Fiji calculates.
+
+* Ask your AI assistant to apply the Sobel x and Sobel y kernels to testImages/Actin_Cropped.tif, to combine the two results into the gradient magnitude, and to save all three images.  Open them in napari.  Which actin fibers stand out in the Sobel x image, and which in the Sobel y image?  Why?  What happens to the fibers in the gradient magnitude image: do you see one line or two lines per fiber?
+
+* Edge filters look at differences between neighboring pixels, and noise also creates differences between neighboring pixels.  Ask your AI assistant to first blur Actin_Cropped.tif with the 5x5 Gaussian kernel from the previous section, and then calculate the gradient magnitude.  Compare with the result without blurring.  What happens to the noise, and to the edges?
+
+* Another edge-finding kernel is the Laplacian, which compares a pixel with the sum of its 8 neighbors:
+
+|       | Col 1  | Col 2  | Col 3 |
+| ----- | ----- | ----- | ----- |
+| Row 1 |  -1   |  -1   |  -1   |
+| Row 2 |  -1   |   8   |  -1   |
+| Row 3 |  -1   |  -1   |  -1   |
+
+  Compare this kernel with the Sharpen kernel.  What do you need to add to the Laplacian to get the Sharpen kernel?  Ask your AI assistant to apply the Laplacian to Actin_Cropped.tif, and compare the result with your unsharp masked images.
+
+* Is an edge-finding filter reversible?  Hint: what happens to the output if you add the same number to every pixel of the input image?
+
+
+## Cross correlation
+So far, the kernels were small, simple patterns of numbers.  But a kernel can be anything, including a small piece of an image.  When you slide a piece of an image over a larger image, multiply the overlapping pixels, and add up the results (exactly what we did with all the kernels above), the output is high where the image looks like the piece, and low where it does not.  This is called cross-correlation, and the piece of the image is called a "template".  Cross-correlation is used to find objects that look like a template, and to measure how far an image has moved, for instance to correct the drift of a sample during a time-lapse.
+
+A note on names: in a "convolution", the kernel is flipped (top-bottom and left-right) before it is slid over the image; in a "cross-correlation", it is not.  For symmetric kernels, like the Smooth and Gaussian kernels, the two give the same result.  For a template cut from an image, they do not: to find a template, you need cross-correlation.
+
+The file testImages/Actin_template.tif is a 21x21 pixel piece of Actin_Cropped.tif, cut out around the bright stress fiber that runs diagonally through the top right of the cell (rows 40 - 60, columns 180 - 200).  It was made with `uv run src/make_actin_template.py`.
+
+* Open Actin_template.tif in napari and look at it.  Then ask your AI assistant to cross-correlate Actin_Cropped.tif with Actin_template.tif (without any normalization), to save the result, and to print where the highest value is.  Is that where the template was cut from?  Open the result in napari.  Where else is the output high?  Does a high value really mean that the image looks like the template there?
+
+* With simple cross-correlation, bright regions give high values whether or not they look like the template.  "Normalized" cross-correlation solves this by subtracting the average and dividing by the spread (standard deviation) of the pixel values, both for the template and for each piece of the image it is compared with.  The result is a number between -1 (the exact opposite of the template) and 1 (a perfect match).  Ask your AI assistant to calculate the normalized cross-correlation (for instance with `match_template` from scikit-image), and to print the location and value of the highest peak, and of the next highest peak at least 10 pixels away.  Where is the second peak?  Why do you think it is there?
+
+* Ask your AI assistant to rotate the template by 90 degrees and repeat the normalized cross-correlation.  What changes in the result, and why?
+
+* Ask your AI assistant to make a copy of Actin_Cropped.tif that is shifted by a few pixels (for instance 7 pixels down and 4 pixels to the right), and to use cross-correlation of the original and the shifted image to find out how far it moved.  This is how drift in time-lapse movies can be measured and corrected.
+
