@@ -45,3 +45,20 @@ A median filter will calculate the median of the pixels under the structuring el
 A 3x3 filter with all weights at 1 will "smooth' the image.  This is the ImageJ/Fiji Smooth filter.  To preserve structure a little better, you can increase the weight of the central pixel of the kernel to a higher value (such as 4).
 
 * Ask your coding asistant to write a Python script to apply the following kernels on your Nucleu_cropped_noise.tif:  a 3x3 kernel with all ones, a 3x3 kernel with all ones, except for the central pixel being 4, a 7x7 kernel with all ones. Normalize each kernel by its sum. Compare the output images with each other, and with the median filtered images.
+
+# Sharpen filter: accentuate fine details
+The kernel of teh Sharpen filter in ImageJ looks as follows:
+|       | Col 1  | Col 2  | Col 3 |
+| ----- | ----- | ----- | ----- |
+| Row 1 |  -1   |  -1   |  -1   |
+| Row 2 |  -1   |  12   |  -1   |
+| Row 3 |  -1   |  -1   |  -1   |
+
+
+* Ask your AI assistant to use this Sharpen filter on the image "Actin_cropped.tif", and compare the result with it input.  What happened to the image, and what happen to the noise in the image? 
+
+
+# Blurring the image with a Gaussian-shaped kernel
+It should now be easy to imagine a kernel that has a 2D Gaussian shape.  Interestingly, this is roughly the same shape as the Point Spread Function of your microscope. So, you could think about your mciroscope applying a 2D Gaussian blur on your real image.    
+
+One fun application of a Gaussian blur is in the "unsharp mask"  Here, you first create a copy of the input image by applying a Gaussian blue
