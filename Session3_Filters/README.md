@@ -7,3 +7,29 @@ Image filters are used to reduce noise in the image, to sharpen borders, or to d
 Local fliters use a "structuring element".  That "structuring element" will be laid over the pixel values (starting at the origin of the image), and the recipe defined by the structuring element will be applied to calculate a value for the central pixel under the structuring element in the output image. Then, the structing element will move to the next pixel, th eprocedure will be repeated, etc..  Let's start with an example.
 
 
+Below is a 5 x 5 image and a 3 x 3 structuring element that is missing its 4 corners, so it has the shape of a plus sign. A structuring element does not have to be square: only the pixels that are part of its shape take part in the calculation.  Each of those pixels has a weight (here all weights are 1, shown as "×1").
+
+To calculate one output pixel:
+1. Place the center of the structuring element (dark orange) on a pixel of the input image.
+2. Multiply each input pixel under the structuring element (light orange) by its weight.
+3. Add up the results.  The sum is the value of the output pixel at the position of the center pixel (dark green).
+
+![Structuring element at the first position](../Pictures/convolution/step_1.png)
+
+Then move the structuring element one pixel to the right (dashed arrow) and repeat.  The pixel values of the input image do not change; the results go into a new, output image.
+
+![Structuring element at the second position](../Pictures/convolution/step_2.png)
+
+At the end of a row, jump back to the start of the next row:
+
+![Structuring element at the end of the first row](../Pictures/convolution/step_3.png)
+
+![Structuring element at the start of the second row](../Pictures/convolution/step_4.png)
+
+Continue until every pixel has been visited.  The animation shows all steps:
+
+![All steps of the filter](../Pictures/convolution/convolution.gif)
+
+Notice that the pixels at the edge of the output image are marked "?".  When the center sits on an edge pixel, part of the structuring element falls outside the image, so there are no input values to multiply with.  Software has to make a choice here, for instance by pretending that the pixels outside the image are zero, or copies of the edge pixels.  Different choices give slightly different results at the image border.
+
+* The pictures above were made with `uv run src/convolution_demo.py`.  Ask your AI coding assistant to change the weights in the structuring element (for instance, 4 in the center and -1 for the 4 neighbors) and run the script again.  What happens to the output values?  What do you need to change to calculate the average of the 5 pixels instead of the sum?
