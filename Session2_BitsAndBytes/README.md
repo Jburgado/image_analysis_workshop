@@ -15,7 +15,7 @@ To illustrate these points, ask your AI to write scripts that:
 * Ask your AI to modify the script so that you can run it using nucleus_cropped_2 and nucleus_cropped_3 as inputs.  Summarize your findings about these files.
 
 
-# Computer representation of RGB images
+## Computer representation of RGB images
 Color (RedGreenBlue, or RGB) images contain 3 numbers per pixel, one each for the Red, Green and Blue components. Most RGB images have 8-bit (one byte) integer numbers per color; however, color images consisting of larger numbers (such as 10-bit, 12-bit or 16-bit) exist.  Other formats, such as RGBA, where A is an "alpha" channel that determines transparency of the pixel, exist.
 
 Color cameras actually contain "monochrome" sensors with a mask of color filters on each pixel. The most widely used arrangement is called a Bayer mask and looks as follows:
