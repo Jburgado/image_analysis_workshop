@@ -34,5 +34,14 @@ Notice that the pixels at the edge of the output image are marked "?".  When the
 
 * The pictures above were made with `uv run src/convolution_demo.py`.  Ask your AI coding assistant to change the weights in the structuring element (for instance, 4 in the center and -1 for the 4 neighbors) and run the script again.  What happens to the output values?  What do you need to change to calculate the average of the 5 pixels instead of the sum?
 
-## Non-reversible filters: Median filter to reduce noise
+* Can you calculate the input image based on the output image and the structuring element (which often is called "kernel"?  If so, how would you do it?  
 
+## Non-reversible filters: Median filter to reduce noise
+A median filter will calculate the median of the pixels under the structuring element and place that value in the output image. Median filters are usually very good at removing "salt and pepper" noise (noise with a small portion of the pixels having outlier values).  Median filters will cause loss of some detail in the image.
+
+* Open the image "testImages/Nucleu_cropped_noise.tif" in napari and inspect the image.  Ask your AI assistant to write a script that generates versions of this image with a median filter build from  a 3x3 kernel missing the corners, a 3x3 kernel, and a 5x5 kernel. Open these in napari and compare the effects of the different median filters. What happens to the noise, and what happens to the structure within the nucleus with these different filters.
+
+## Smooth filter: A simple reversible filter to smooth and reduce noise.
+A 3x3 filter with all weights at 1 will "smooth' the image.  This is the ImageJ/Fiji Smooth filter.  To preserve structure a little better, you can increase the weight of the central pixel of the kernel to a higher value (such as 4).
+
+* Ask your coding asistant to write a Python script to apply the following kernels on your Nucleu_cropped_noise.tif:  a 3x3 kernel with all ones, a 3x3 kernel with all ones, except for the central pixel being 4, a 7x7 kernel with all ones. Normalize each kernel by its sum. Compare the output images with each other, and with the median filtered images.
