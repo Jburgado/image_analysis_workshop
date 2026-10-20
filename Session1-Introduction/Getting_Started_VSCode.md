@@ -69,7 +69,7 @@ This will create a (virtual) Python environment as specified in the file "pyproj
 
 Then run the test script using:
 ```text
-uv run Session1-Introduction/show_image.py
+uv run src/show_image.py
 ```
 
 Fun fact, you can actually skip "uv sync", uv will set up the environment also when you use "uv run".  Next time you run the script, it will be much faster.
