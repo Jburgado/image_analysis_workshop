@@ -1,10 +1,10 @@
-"""Cut a small piece (a "template") out of Actin_Cropped.tif for cross-correlation.
+"""Cut a small piece (a "template") out of Mito_Cropped.tif for cross-correlation.
 
 Run it from the top folder of the workshop repository with:
 
-    uv run src/make_actin_template.py
+    uv run src/make_mito_template.py
 
-The result is saved as testImages/Actin_template.tif.
+The result is saved as testImages/Mito_template.tif.
 """
 
 from pathlib import Path
@@ -12,14 +12,14 @@ from pathlib import Path
 import tifffile
 
 REPO = Path(__file__).resolve().parent.parent
-INPUT = REPO / "testImages" / "Actin_Cropped.tif"
-OUTPUT = REPO / "testImages" / "Actin_template.tif"
+INPUT = REPO / "testImages" / "Mito_Cropped.tif"
+OUTPUT = REPO / "testImages" / "Mito_template.tif"
 
 # The center of the piece (row, column) and how far it extends on each side.
-# This spot lies on the bright stress fiber that runs diagonally through the
-# top right part of the cell.  A half-width of 10 gives a 21 x 21 pixel piece.
-CENTER_ROW, CENTER_COL = 50, 190
-HALF_WIDTH = 10
+# This spot is a single, small, round mitochondrion below and to the right of
+# the nucleus.  A half-width of 5 gives an 11 x 11 pixel piece.
+CENTER_ROW, CENTER_COL = 225, 172
+HALF_WIDTH = 5
 
 with tifffile.TiffFile(INPUT) as tif:
     image = tif.asarray()
