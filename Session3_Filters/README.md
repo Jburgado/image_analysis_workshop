@@ -46,7 +46,7 @@ A 3x3 filter with all weights at 1 will "smooth' the image.  This is the ImageJ/
 
 * Ask your coding asistant to write a Python script to apply the following kernels on your Nucleu_cropped_noise.tif:  a 3x3 kernel with all ones, a 3x3 kernel with all ones, except for the central pixel being 4, a 7x7 kernel with all ones. Normalize each kernel by its sum. Compare the output images with each other, and with the median filtered images.
 
-# Sharpen filter: accentuate fine details
+## Sharpen filter: accentuate fine details
 The kernel of the Sharpen filter in ImageJ looks as follows:
 |       | Col 1  | Col 2  | Col 3 |
 | ----- | ----- | ----- | ----- |
