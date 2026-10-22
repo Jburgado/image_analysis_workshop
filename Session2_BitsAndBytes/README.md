@@ -86,3 +86,8 @@ During the last few years, data size has exploded (data sets that are several TB
 
 ### Other formats
 Regrettably, many, many different formats have been introduced by microscope companies.  These usually work best with the vendor's own software.  So, Nikon NIS-Elements stores its data in .nd2 files, and Zeiss ZEN uses .czi files.  Luckily, the [Bio-Formats](https://www.openmicroscopy.org/bio-formats/) project has created code that reads over 160 formats and attempts to standardize the metadata in what it reads.  In our Python environment we are using the [BioIO](https://github.com/bioio-devs/bioio) package that originated at the Allen Institute for Cell Science.
+
+
+## Save the code that you value
+When you finish this section (and please do the same when you finish future sections), take a moment to look at the files that you have generated and decide what you want to keep in your github branch.  To do so, on the CLI, type the command 'git status'.  In VSCode, the tab on the left will indicate what are new and modified files.  Decide what you want to keep, and "add" these to the staging area by typing 'git add names_of_the_files_to_keep'.  Then type 'git commit -m "This is the commit message, type something that describes these files and the changes you made, so that you will later remember what happened"', and lastly 'git push' (which will push the changed files to your branch in your fork on github.  
+

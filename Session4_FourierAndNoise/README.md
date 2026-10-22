@@ -130,4 +130,87 @@ The result looks like the image that donated the phases, not like the image that
 * Ask your AI assistant to make a 64 x 64 pixel image with 30 vertical stripes, and one with 40 vertical stripes, and to show both images and their Fourier images.  How many stripes do you count in the second image?  Where is its spot in the Fourier image?  What does this tell you about trying to image structures that are finer than your pixels can show?
 
 
+## Filter images in Fourier space
+
+### Convolution in real space is multiplication in Fourier space
+In Session 3, we filtered images by convolution: sliding a kernel over the image, and for every pixel multiplying and adding the pixel values under the kernel.  There is a second way to get exactly the same result:
+
+1. Calculate the Fourier image of the image.
+2. Calculate the Fourier image of the kernel (the kernel is first placed in an image of zeros, the same size as the image).
+3. Multiply the two Fourier images, pixel by pixel.
+4. Transform the result back.
+
+This is called the **convolution theorem**: convolution in real space is the same as multiplication in Fourier space.  Why would that be?  Remember that an image is a sum of waves (stripe patterns).  When you smooth a stripe pattern, you still get the same stripe pattern, only with less contrast (and perhaps slightly moved).  So, a convolution does not mix waves: it only changes the amplitude (and phase) of each wave on its own.  How much each wave changes is exactly what the Fourier image of the kernel tells you.  When two complex numbers are multiplied, their amplitudes multiply and their phases add up.
+
+Here is the noisy nucleus image from Session 3 (testImages/Nucleus_cropped_noise.tif), smoothed with the 3x3 Smooth kernel (all ones, divided by 9).  The top row shows the convolution in real space, the bottom row the same calculation in Fourier space.  This picture was made with `uv run src/fourier_convolution_demo.py`.  The script smooths the image in both ways, and prints the largest difference between the two results: 0.000000000003, which is only the rounding of the computer's arithmetic.
+
+![Convolution in real space is multiplication in Fourier space](../Pictures/fourier2d/convolution_theorem.png)
+
+Notice that:
+
+* **The noise is everywhere in the Fourier image of the noisy image.**  The nucleus gives the bright spot in the center (large, slowly changing structures).  The noise gives the bright, even "floor" that fills the whole Fourier image.  A single bright pixel is the sharpest possible feature, and it needs waves of all frequencies, in all directions, with equal amplitude.  Hundreds of noisy pixels spread their energy over the whole Fourier image.
+* **The Fourier image of the kernel is 1 in the center, and becomes smaller further out.**  It keeps the slow waves, and weakens the fast waves: a "low-pass filter".  The center is exactly 1 because we divided the kernel by the sum of its weights, so the average brightness of the image does not change.
+* **The dark lines are waves that the Smooth kernel removes completely.**  These are stripes that repeat every 3 pixels: the average of 3 neighboring pixels of such a stripe pattern is always the same, so the stripes disappear.
+* **Beyond the dark lines, the Fourier image of the kernel gets brighter again** (up to 1/3 at the edges and 1/9 in the corners).  The Smooth kernel does not remove the finest waves completely.  This is why each noise pixel becomes a small, faint square in the smoothed image instead of disappearing.
+* **The Fourier image of the smoothed image is the product of the other two.**  You can see the dark lines of the kernel in it.  Because the amplitudes are shown on a logarithmic scale, the rest of the outer region looks only a little darker, but the amplitudes there are 2 to 9 times smaller than in the noisy image.
+
+A note on the edges: the convolution theorem treats the image as if it repeats like tiles on a floor (see "The Fourier image of a cell" above).  To get exactly the same result with convolution, the convolution must do the same at the edges of the image (in Python: `scipy.ndimage.convolve(..., mode="wrap")`).  Other ways of handling the edges only change the pixels at the very border of the image.
+
+Why is this useful?
+* **Speed.**  For a large kernel, convolution needs many multiplications for every pixel (a 21x21 kernel needs 441), while in Fourier space it is one multiplication per pixel, plus the (fast!) Fourier transforms.
+* **Design your own filter.**  Instead of choosing a kernel, you can directly choose which waves to keep and which to remove, by multiplying the Fourier image with a "mask" of your choice.  That is what we will do to reduce noise.
+* **Understanding your microscope.**  A microscope blurs the sample with its Point Spread Function (see Session 3): a convolution.  The Fourier image of the Point Spread Function (called the Optical Transfer Function) is zero beyond a certain frequency.  Those waves, the finest details of the sample, never make it into your image: this is the resolution limit of your microscope.
+
+### Try it yourself
+* Ask your AI assistant to change `src/fourier_convolution_demo.py` to use the 7x7 Smooth kernel (all ones, divided by 49).  Where are the dark lines in the Fourier image of the kernel now?  What does that mean for the smoothed image?
+
+* Ask your AI assistant to make the same picture with the 5x5 Gaussian kernel from Session 3.  How does the Fourier image of a Gaussian kernel look?  Does it have dark lines?  Is the noise in the smoothed image still turned into small squares?
+
+* Ask your AI assistant to make the same picture with the Sharpen kernel from Session 3 (normalized by its sum).  What does the Fourier image of this kernel do to the slow and to the fast waves?  What happens to the noise?
+
+* In Session 3 you were asked whether you can calculate the input image from the output image and the kernel.  In Fourier space, that looks easy: divide the Fourier image of the smoothed image by the Fourier image of the kernel, and transform back.  Ask your AI assistant to try this with the 3x3 Smooth kernel.  What happens, and why?  (Hint: look at the dark lines in the Fourier image of the kernel.)
+
+
+### Low-pass and high-pass filters
+Instead of starting with a kernel, we can now design a filter directly in Fourier space: decide which waves to keep, and which to remove.  We do this by multiplying the Fourier image with a "mask": 1 for the waves we keep, 0 for the waves we remove.
+
+* A **low-pass filter** keeps the slow waves (in the center of the Fourier image) and removes the fast waves.  The script `src/fourier_lowpass_nucleus.py` does this for the noisy nucleus image: it calculates the Fourier image, blacks out everything outside a circle with a diameter of 10% of the image, and transforms back.  Only 633 of the 81,792 waves (less than 1%) are kept.  Run it with `uv run src/fourier_lowpass_nucleus.py` and open the results in napari.
+* A **high-pass filter** does the opposite: it blacks out the center, and keeps everything else.  What remains are the fine details (and the noise).  Because the center (the average brightness) is removed as well, the pixel values of the result are around 0, both positive and negative.  High-pass filters are used to make fine structures and edges stand out, and to remove slow changes in brightness, such as uneven illumination.
+
+The low-pass and the high-pass filter with the same circle split the image into two parts: adding the two results gives back the original image.
+
+![Low-pass and high-pass filters, with sharp and with soft edges](../Pictures/fourier2d/fourier_filters.png)
+
+Each row of this picture is one filter (made with `uv run src/fourier_filters_demo.py`).  From left to right: the mask, the kernel that does the same in real space (the inverse Fourier transform of the mask, see the convolution theorem above), the Fourier image multiplied by the mask, and the result.  Look at the first and third rows (the sharp-edged masks) for now:
+
+* The low-pass filter removes the noise completely, but also the texture inside the nucleus: that texture is made of the same fast waves as the noise.
+* The high-pass filter keeps the noise, and the edges and the texture of the nucleus.  The large, smooth areas (the bright nucleus, the dark background) are gone.
+
+### Ringing, and how to avoid it
+Look at the kernels of the sharp-edged masks (first and third rows, second column): they are surrounded by rings, alternating positive (red) and negative (blue).  Every bright pixel and every edge in the image gets a copy of these rings.  The result is ripples next to edges, called **ringing**.  It is the same thing as the "overshoots" next to the jumps of the square wave in Step 2: when you build a sharp edge from a limited set of waves and stop abruptly at some frequency, the waves no longer cancel each other completely next to the edge.
+
+The cure is to make the edge of the mask soft: instead of jumping from 1 to 0, the mask goes from 1 to 0 smoothly (here shaped as half a cosine wave).  This is called **apodization**.  The kernels of the soft-edged masks (second and fourth rows) have hardly any rings left.
+
+The ringing is easiest to see with a test image that has a perfectly sharp edge:
+
+![Ringing with a sharp-edged and a soft-edged low-pass filter](../Pictures/fourier2d/ringing.png)
+
+With the sharp-edged mask, the disk is surrounded by rings, and there are ripples inside it.  With the soft-edged mask, the repeating ripples are gone: only one small overshoot just inside the edge and one small dip just outside it remain.  The price is that a soft edge does not separate "keep" from "remove" as strictly as a sharp edge: some slightly faster waves are let through, and some slightly slower waves are weakened.
+
+In real microscope images, edges are never perfectly sharp: the microscope has already blurred them (see "Understanding your microscope" above).  So, the ringing in the nucleus image is much smaller, but you can still see it along a line through the nucleus.  The sharp-edged mask gives a higher peak, and small extra wiggles next to the nucleus (around columns 75 and 180):
+
+![A line through the nucleus after sharp-edged and soft-edged low-pass filtering](../Pictures/fourier2d/lowpass_profile.png)
+
+### Try it yourself
+* Change `DIAMETER_FRACTION` at the top of `src/fourier_lowpass_nucleus.py` to 0.05, 0.2 and 0.4, and run it each time.  Open the results in napari.  What happens to the noise, and to the texture inside the nucleus?  Which diameter would you choose?
+
+* Ask your AI assistant to change `src/fourier_lowpass_nucleus.py` so that it uses a Gaussian-shaped mask (bright in the center, smoothly fading out, like a 2D bell curve) instead of a circle.  What kernel does a Gaussian mask correspond to?  Compare the result with the Gaussian-blurred images from Session 3.
+
+* Compare the low-pass filtered nucleus with the median-filtered images from Session 3.  Which works better for this kind of "salt and pepper" noise?  Why can no mask in Fourier space separate the noise from the texture of the nucleus?  (Hint: look at where the noise is in the Fourier image of the noisy image.)
+
+* Ask your AI assistant to apply a soft-edged high-pass filter to testImages/Actin_Cropped.tif, and to save the result.  Open it in napari, next to the original.  What happens to the stress fibers, and to the brightness differences between the inside and the outside of the cell?  Compare the result with the "unsharp masked" images from Session 3.
+
+
+## Other Denoising methods
+So far, we have discussed filters based on convolution, and fourier domain filters and their usefulness to reduce noise in images (thereby increasing signal-noise ratio, which should help with downstream analysis).  During the last few years, deep learning-based methods have been developed to reduce noise in biological images.  These can be supervised (a model learns from noise input images, combined with "clean" denoised images as the ground truth), or unsupervised as in the Noise2Void algorithm (https://imagej.net/plugins/n2v).  Loic Royer and his group at the Biohub developed a software package that let's you explore differen denoising methods, which they called ["Aydin"](https://github.com/royerlab/aydin).  Regretfully, Aydin does not play nice with our Python environment.  I made a pyrpojet.toml in this directory that let's Aydin run (at least on Windows).  You can play around with it by typing `uv run aydin` in this directory.
 
