@@ -48,6 +48,12 @@ Add this file to the list of files to be committed, and then commit it:
 * Type a commit message, for example "The first file added to my_branch is just a test file.", in the message box at the top of the Source Control panel.
 * Click the checkmark (✓) button (or press Ctrl+Enter / Cmd+Enter) to commit.
 
+> IMPORTANT:
+> Never commit passwords, secret keys, etc. to a git repository.  It is extremely 
+> difficult to remove these from the repo completely, and pushing them to a site
+> such as GitHub will make them publicly accessible.
+
+
 You can now push this file to GitHub:
 * Click the "..." (More Actions) menu at the top of the Source Control panel and select "Push".
 * Since this is the first time you push this branch, VSCode will instead show a "Publish Branch" button in the Source Control panel - click it.  This creates the branch on GitHub and sets up tracking (the same as `git push --set-upstream origin my_branch`).

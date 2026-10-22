@@ -45,6 +45,12 @@ And then commit it:
 ```text
 git commit -m "The first file added to my_branch is just a test file."
 ```
+
+> IMPORTANT:
+> Never commit passwords, secret keys, etc. to a git repository.  It is extremely 
+> difficult to remove these from the repo completely, and pushing them to a site
+> such as GitHub will make them publicly accessible.
+
 You can now push this file to GitHub:
 ```text
 git push
