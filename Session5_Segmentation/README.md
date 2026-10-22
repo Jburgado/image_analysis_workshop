@@ -38,8 +38,18 @@ If the goal is to fill holes within existing objects, you can change the order: 
 ### From segmented images to objects
 You now how have a segmented, binary (only zeros and ones) image on which you clearly can see what is nucleus and what is not.  For the computer to recognize these as individual entities, it is much nicer to give each connected area its own number and use a LookUp Taable that has different colors for these numbers.  
 
-* Ask your AI coding assistant to opens the DAPI channel from testImages/3Channel_FF_Corrected_1_MMStack_Pos0.ome.tif, thresholds it using the Otsu method, run 3 rounds of erosion and 3 rounds of dilation on it, and label each of the objects with a distinct number, and save the image with a LUT with distinct colors for these numbers. Note, to see the labels as distinct colors in Napari, you may need to righ-click the layer and choose "Convert to Labels".  
+* Ask your AI coding assistant to open the DAPI channel from testImages/3Channel_FF_Corrected_1_MMStack_Pos0.ome.tif, threshold it using the Otsu method, run 3 rounds of erosion and 3 rounds of dilation on it, and label each of the objects with a distinct number, and save the image with a LUT with distinct colors for these numbers. Note, to see the labels as distinct colors in Napari, you may need to righ-click the layer and choose "Convert to Labels".  
 
 
-You may have noticed that nuclei that are close together in the image are not 
+You may have noticed that nuclei that are close together in the image are not separated.  The watershed algorithm was designed for such problems.  This algorithm tries to find the hilltops separated by water streams in a 3D landscape.  The algorithm calculates the distance of each pixel to the background in a segmented image, making (hopefully) the center of each nucleus a peak.  It then takes the negative of this distance image, and fills the holes untill they start touching, resulting in a label image where touching nuclei are (hopefully) separated. 
 
+
+* Ask your AI coding assistant to open the DAPI channel from testImages/3Channel_FF_Corrected_1_MMStack_Pos0.ome.tif, threshold it using the Otsu method, run 3 rounds of erosion and 3 rounds of dilation on it, and run the watershed algorithm to produce a labeled image. Open it in Napari (to see the labels as distinct colors in Napari, you may need to righ-click the layer and choose "Convert to Labels").  
+
+You also likely noticed that there are several nuclei cut off by the borders of the image.  These will obviously give incorrect results for values such as the size of the nucleus.  
+
+* Ask your AI coding assitant to repeat the step above, but now exclude objects touching the borders of the image.
+
+> Note: it is very insightful to read the Python scripts that your AI assistant generates.
+
+## From objects to numbers to insights
