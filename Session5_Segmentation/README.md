@@ -8,7 +8,23 @@ Segmentation in image analysis literally means segmenting the image in two or mo
 Setting a threshold by eye balling does not scale well, and certainly is not reproducible (poll your neighbors about the threshold they choose).  Ask your AI assistant what methods exist in scikit-image to automatically determine a threshold and how they work.
 
 ### What is an object?  Connected pixels
-To go from a segmented image to objects, the computer code needs to determine which pixels are connected.  This works with a structuring element very much like the kernels that we used for convolution filters.  This structuring element often is a 3x3 element, or a 3x3 element with no corners (i.e. a plu sign).  When the code overlays this on teh segmented image, a pixel is considered to be "connected" if any of the pixels in the strcuturing element are a one (i.e. not zero). 
+To go from a segmented image to objects, the computer code needs to determine which pixels are connected.  This works with a structuring element very much like the kernels that we used for convolution filters.  This structuring element often is a 3x3 element, or a 3x3 element with no corners (i.e. a plus sign).  When the code overlays this on teh segmented image, a pixel is considered to be "connected" if any of the pixels in the strcuturing element are a one (i.e. not zero). 
+
+Plus sign structuring element
+|       | Col 1  | Col 2  | Col 3 |
+| ----- | ----- | ----- | ----- |
+| Row 1 |     |  1   |     |
+| Row 2 |  1   |     |  1   |
+| Row 3 |     |  1   |     |
+
+
+
+Full 8 connected neigbors
+|       | Col 1  | Col 2  | Col 3 |
+| ----- | ----- | ----- | ----- |
+| Row 1 |  1   |  1   |  1   |
+| Row 2 |  1   |     |  1   |
+| Row 3 |  1   |  1   |  1   |
 
 * Ask your AI coding assistant to write a script that reads the DAPI channel in testImages/3Channel_FF_Corrected_1_MMStack_Pos0.ome.tif, thresholds it with a value determined wit the Otsu method, and counts the total number of objects (independent of size). Show a histogram of the size (in number of pixels) of the objects.
 
