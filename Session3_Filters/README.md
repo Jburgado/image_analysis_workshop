@@ -39,12 +39,12 @@ Notice that the pixels at the edge of the output image are marked "?".  When the
 ## Non-reversible filters: Median filter to reduce noise
 A median filter will calculate the median of the pixels under the structuring element and place that value in the output image. Median filters are usually very good at removing "salt and pepper" noise (noise with a small portion of the pixels having outlier values).  Median filters will cause loss of some detail in the image.
 
-* Open the image "testImages/Nucleu_cropped_noise.tif" in napari and inspect the image.  Ask your AI assistant to write a script that generates versions of this image with a median filter build from  a 3x3 kernel missing the corners, a 3x3 kernel, and a 5x5 kernel. Open these in napari and compare the effects of the different median filters. What happens to the noise, and what happens to the structure within the nucleus with these different filters.
+* Open the image "testImages/Nucleus_cropped_noise.tif" in napari and inspect the image.  Ask your AI assistant to write a script that generates versions of this image with a median filter build from  a 3x3 kernel missing the corners, a 3x3 kernel, and a 5x5 kernel. Open these in napari and compare the effects of the different median filters. What happens to the noise, and what happens to the structure within the nucleus with these different filters?
 
 ## Smooth filter: A simple reversible filter to smooth and reduce noise.
 A 3x3 filter with all weights at 1 will "smooth' the image.  This is the ImageJ/Fiji Smooth filter.  To preserve structure a little better, you can increase the weight of the central pixel of the kernel to a higher value (such as 4).
 
-* Ask your coding asistant to write a Python script to apply the following kernels on your Nucleu_cropped_noise.tif:  a 3x3 kernel with all ones, a 3x3 kernel with all ones, except for the central pixel being 4, a 7x7 kernel with all ones. Normalize each kernel by its sum. Compare the output images with each other, and with the median filtered images.
+* Ask your coding asistant to write a Python script to apply the following kernels on your Nucleus_cropped_noise.tif:  a 3x3 kernel with all ones, a 3x3 kernel with all ones, except for the central pixel being 4, a 7x7 kernel with all ones. Normalize each kernel by its sum. Compare the output images with each other, and with the median filtered images.
 
 ## Sharpen filter: accentuate fine details
 The kernel of the Sharpen filter in ImageJ looks as follows:
@@ -67,7 +67,7 @@ When you shape the kernel as a 2D Gaussian (bell shaped), it could end up lookin
 | Row 2 |  2   |  4   |  2   |
 | Row 3 |  1   |  2   |  1   |
 
-It should now be easy to imagine a kernel that has a 2D Gaussian shape.  Interestingly, this is roughly the same shape as the Point Spread Function of your microscope. So, you could think about your mciroscope applying a 2D Gaussian blur on your real image.    
+It should now be easy to imagine a kernel that has a 2D Gaussian shape.  Interestingly, this is roughly the same shape as the Point Spread Function of your microscope. So, you could think about your microscope applying a 2D Gaussian blur on your real image.    
 
 One fun application of a Gaussian blur is in the "unsharp mask"  Here, you first create a copy of the input image by applying a Gaussian blur, then substract the blurred image from the input image.  The size of the Gaussian kernel (size of the blur) is important,
 
