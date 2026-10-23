@@ -18,4 +18,11 @@ Rewriting this to solve for CI, we get:
 
 When doing this calculation, it is nice to normalize the FI image to 1 (i.e. convert it to a floating point image and divide the image by its mean).  That way the mean intensity of the CI stays the same as that of the MI.  
 
-* 
+* Exercise to compare results before and after flatfielding.
+
+## Segmentation using trained networks
+During the previous session you have seen how you can combine convolution filters to create an image that can be easily segmented into the objects that you are ineterested in.  Choosing the correct (sequencee) of filters and selecting a threshold is laborious and often not transferable from one image to the next.  Computer vision scientist have long worked on methods to automate this process so that a single operation can produce the desired segmentation.
+
+To do so, researchers used annotated data sets, consisting of pairs of input images and the desired (segmented) result.  Initially, gigantic datasets were needed to produce the desired results.  Those algorithms were often fragile and did not work with images slightly different from what was in the training set.  A big breakthrough was the design of a ["U-Net"](https://link.springer.com/chapter/10.1007/978-3-319-24574-4_28) architecture.  In a U-Net, the image is convoluted and downsamples in a couple of steps to a compressed, smaller image, and then convluted and upsampled.  A fuller and much better description of this architecture can be found [here](https://www.geeksforgeeks.org/machine-learning/u-net-architecture-explained/) and in the original paper.  A huge advantage of this architecture is that the size of the training set can be greatly reduced, and training sets of 10s of images can be enough to give useful results.
+
+Many deep learning tools based on U-Net have been released.  Possibly the most widely used one is [Cellpose](https://www.biorxiv.org/content/10.1101/2020.02.02.931238v2.full) which not only excelled at segmenting cells from microscope images it had never seen before, but also was released with a nice user interface including tools to fine-train Cellpose for images on which it did not directly yield the desired results.
