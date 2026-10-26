@@ -60,7 +60,7 @@ Install [homebrew](https://brew.sh/) if you don't already have it, then:
 brew install git
 ```
 
-* MacPorts
+* MacPorts (alternative to Homebrew, you need only one of the two)
 
 Install MacPorts if you don't already have it, then:
 ```text
