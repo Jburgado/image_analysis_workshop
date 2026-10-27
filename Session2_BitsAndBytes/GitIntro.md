@@ -69,7 +69,9 @@ The part after the `-m` flag is your comment that will be stored with this commi
 
 ---
 
-# **The `.gitignore` file**
+# **Useful info about your repo**
+
+`git diff` will show you the differences between committed files and files you currently have (unstaged).  
 
 `git status` will show you new files and staged files.  Sometimes, you do not want to add files to a git repository.  Adding those files to `.gitignore` (and checking `.gitignore` into git) will cause git to ignore the listed files.  Wildcards are allowed.
 
