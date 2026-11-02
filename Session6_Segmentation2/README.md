@@ -20,6 +20,9 @@ When doing this calculation, it is nice to normalize the FI image to 1 (i.e. con
 
 * Ask your AI coding assistant to analyze the nuclei in the DAPI channel of the image(s) 3Channel_Rw_25Pos_1, with and without Flatfield correction with the files available in the folder Flatfield (both of these are in our shared Box folder "image_analysis_workshop_2026).  Ask for a histogram of the background corrected summed DAPi intensity.  Is it better to calculate the Otsu threshold per image or one threshold for the complete dataset? Also, you can ask for local background subtraction, for instance by using the mdeian value of a ring 10-20 pixels out of the nuclei (taking care to avoid nearby nuclei and their rings).  Which approach gives you a histogram where you can discern G1 and G2 nuclei most faithfully? 
 
+Another approach is to use a "White Top-Hat" filter.  This procedure works by erosion followed by dilation of the original greyscale image to remove objects smaller than the filter size (therefore, you need to carefully consider the needed filter size).  The resulting image represents a good estimate of the background and can be used to subtract from the orginal image. It works best when objects are not that large. 
+
+
 ## Segmentation using trained networks
 During the previous session you have seen how you can combine convolution filters to create an image that can be easily segmented into the objects that you are ineterested in.  Choosing the correct (sequencee) of filters and selecting a threshold is laborious and often not transferable from one image to the next.  Computer vision scientist have long worked on methods to automate this process so that a single operation can produce the desired segmentation.
 
